@@ -1,0 +1,39 @@
+<h2>Ratings</h2>
+<p>Total of <%= Rating.count %> ratings given</p>
+
+<h3>Top 3 breweries</h3>
+<table>
+  <thead>
+    <tr>
+      <td>Brewery</td>
+      <td>rating</td>
+    </tr>
+  </thead
+  <tbody
+  <% @top_breweries.map{|x| x[:name]}.each do |y| %>
+    <tr>
+      <td><%= "#{y}" %></td>
+      <td><%= Brewery.find_by(name:"#{y}").average_rating %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h3>Most active raters</h3>
+  <ul>
+    <% @users.order(created_at: :desc).limit(3).each do |user| %>
+      <li><%= user.username %> <%= user.ratings.count %></li>
+    <% end %>
+  </ul>
+<p>
+  
+</p>
+
+<h3>Latest ratings</h3>
+<ul>
+  <% @ratings.order(created_at: :desc).limit(5).each do |rating| %>
+    <li> <%= rating %> by <%= link_to rating.user.username, rating. user %> </li>
+  <% end %>
+</ul>
+
+<%= link_to "new rating", new_rating_path, class:"btn btn-default" %>
